@@ -1,0 +1,39 @@
+﻿@model List<Home_Service.Models.Services>
+
+@{
+    ViewData["Title"] = "Services Index";
+}
+
+<h2>Services Index</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Admin Comment</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var service in Model)
+        {
+            <tr>
+                <td>@service.Title</td>
+                <td>@service.Description</td>
+                <td>@service.Location</td>
+                <td>@service.Price</td>
+                <td>@service.Category.Name</td>
+                <td>@service.Status</td>
+                <td>@service.AdminComment</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@service.Id" class="btn btn-primary">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
