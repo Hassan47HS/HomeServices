@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
+      "Id": "C:\\Users\\Dev\\source\\repos\\Home_Service\\Home_Service\\wwwroot\\lib\\Images\\logo.jpg",
+      "PackagePath": "staticwebassets\\lib\\Images\\logo.jpg"
+    },
+    {
       "Id": "C:\\Users\\Dev\\source\\repos\\Home_Service\\Home_Service\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },

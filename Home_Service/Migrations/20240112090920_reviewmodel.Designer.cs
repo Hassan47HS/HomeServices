@@ -4,6 +4,7 @@ using Home_Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Home_Service.Migrations
 {
     [DbContext(typeof(HomeServiceDB))]
-    partial class HomeServiceDBModelSnapshot : ModelSnapshot
+    [Migration("20240112090920_reviewmodel")]
+    partial class reviewmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,15 +116,9 @@ namespace Home_Service.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("services");
                 });
@@ -156,21 +152,21 @@ namespace Home_Service.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "28ee1bdc-682a-41b8-9f53-95d4babf2523",
+                            Id = "d107a788-89ff-4a9f-b2b0-fcfa5f2df323",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "d390ca82-0e17-48ce-817c-9c65a9f56d29",
+                            Id = "08e8709b-14ca-4a80-bd9e-6b8d6859386f",
                             ConcurrencyStamp = "2",
                             Name = "Seller",
                             NormalizedName = "Seller"
                         },
                         new
                         {
-                            Id = "7dca485e-f90f-4a8b-b989-e2c95caec5f3",
+                            Id = "f5cd2b05-f40b-4120-8278-54ae2b8423f7",
                             ConcurrencyStamp = "3",
                             Name = "Customer",
                             NormalizedName = "Customer"
@@ -400,15 +396,7 @@ namespace Home_Service.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Home_Service.Models.User", "User")
-                        .WithMany("Services")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -470,11 +458,6 @@ namespace Home_Service.Migrations
             modelBuilder.Entity("Home_Service.Models.Services", b =>
                 {
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("Home_Service.Models.User", b =>
-                {
-                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

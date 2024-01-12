@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Home_Service.Migrations;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Home_Service.Models
@@ -17,6 +18,8 @@ namespace Home_Service.Models
         public Role Role { get; set; }
 
         public Status Status { get; set; }
+
+        public ICollection<Services> Services { get; set; }
     }
 
 
@@ -28,7 +31,8 @@ public enum Gender
     public enum Role
     {
         Seller,
-        Customer
+        Customer,
+        Admin
     }   
     public enum Status
     {

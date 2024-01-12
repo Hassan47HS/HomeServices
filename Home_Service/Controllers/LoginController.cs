@@ -5,6 +5,7 @@ using Home_Service.Models;
 using Home_Service.ViewModel;
 using Home_Service;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+using System.Security.Claims;
 
 public class LoginController : Controller
 {
@@ -17,14 +18,16 @@ public class LoginController : Controller
     {
         _userManager = userManager;
         _roleManager = roleManager;
-        _signInManager= signInManager;
+        _signInManager = signInManager;
         _context = context;
     }
+
     [HttpGet]
     public IActionResult Register()
     {
         return View();
     }
+
     [HttpPost]
     public async Task<IActionResult> Register(UserViewModel model)
     {
@@ -38,20 +41,25 @@ public class LoginController : Controller
                 {
                     Name = model.Name,
                     Email = model.Email,
-                    UserName = model.UserName, // You can use email as the username if needed
+                    UserName = model.UserName,
                     Gender = model.Gender,
                     Age = model.Age,
-                    Role = model.Role,
                     Status = model.Status,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     EmailConfirmed = true
                 };
+                // Check if the role exists, and create it if not
+                var roleExists = await _roleManager.RoleExistsAsync(model.Role.ToString());
+                if (!roleExists)
+                {
+                    var role = new IdentityRole(model.Role.ToString());
+                    await _roleManager.CreateAsync(role);
+                }
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    
                     await _userManager.AddToRoleAsync(user, model.Role.ToString());
                     return RedirectToAction("Login", "Login");
                 }
@@ -67,29 +75,44 @@ public class LoginController : Controller
             {
                 ModelState.AddModelError(string.Empty, "User with this email already exists");
             }
-        }   
+        }
         return View();
     }
+
     [HttpGet]
     public IActionResult Login()
     {
         return View();
-    }   
+    }
+
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (ModelState.IsValid)
         {
-            // You can use the email as the username for login
-            var SignedUser = await _userManager.FindByEmailAsync(model.Email);
-            var result = await _signInManager.PasswordSignInAsync(SignedUser.UserName, model.Password,false, lockoutOnFailure: false);
+            var signedUser = await _userManager.FindByEmailAsync(model.Email);
+            var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, model.Password, false, lockoutOnFailure: false);
+
             if (result.Succeeded)
             {
+                // Retrieve the user
+                var user = await _signInManager.UserManager.FindByEmailAsync(model.Email);
+
+                // Retrieve user roles
+                var roles = await _userManager.GetRolesAsync(user);
+
+                // Now, 'roles' contains the roles associated with the user
+
+                // Add user ID as a claim
+                await _signInManager.UserManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
+
+                // Redirect to the appropriate action
                 return RedirectToAction("Index", "Service");
             }
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt");
         }
+
         foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
         {
             // Log or print the error message
@@ -98,5 +121,4 @@ public class LoginController : Controller
         }
         return View(model);
     }
-
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Home_Service
 {
@@ -15,10 +16,12 @@ namespace Home_Service
         {
             base.OnModelCreating(builder);
             seedRoles(builder);
+            
         }
         public DbSet <User> users { get; set; }
         public DbSet <Services> services { get; set; }
         public DbSet <Category> categories { get; set; }
+        public DbSet <Reviews> Reviews {  get; set; }   
         private void seedRoles(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData

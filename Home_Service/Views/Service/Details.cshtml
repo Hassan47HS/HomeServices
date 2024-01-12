@@ -1,0 +1,63 @@
+﻿@model Home_Service.Models.Services
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Service Details</h2>
+
+<dl class="row">
+
+    <dt class="col-sm-2">Title:</dt>
+    <dd class="col-sm-10">@Model.Title</dd>
+
+    <dt class="col-sm-2">Description:</dt>
+    <dd class="col-sm-10">@Model.Description</dd>
+
+    <dt class="col-sm-2">Location:</dt>
+    <dd class="col-sm-10">@Model.Location</dd>
+
+    <dt class="col-sm-2">Price:</dt>
+    <dd class="col-sm-10">@Model.Price</dd>
+
+    <dt class="col-sm-2">Average Rating:</dt>
+    <dd class="col-sm-10">@Model.AverageRating</dd>
+
+    <dt class="col-sm-2">Category:</dt>
+    <dd class="col-sm-10">@Model.Category.Name </dd>
+
+    <dt class="col-sm-2">Rejection Reason:</dt>
+    <dd class="col-sm-10">@Model.RejectionReason</dd>
+
+    <dt class="col-sm-2">Re-approval Requested:</dt>
+    <dd class="col-sm-10">@Model.IsReApprovalRequested</dd>
+
+    <dt class="col-sm-2">Status:</dt>
+    <dd class="col-sm-10">@Model.Status</dd>
+
+    <dt class="col-sm-2">Admin Comment:</dt>
+    <dd class="col-sm-10">@Model.AdminComment</dd>
+</dl>
+
+<h3>Customer Reviews</h3>
+
+@if (Model.Reviews != null && Model.Reviews.Any())
+{
+    <ul>
+        @foreach (var review in Model.Reviews)
+        {
+            <li>
+                <strong>Rating:</strong> @review.rating,
+                <strong>Comment:</strong> @review.Comment
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No reviews available.</p>
+}
+
+<p>
+    <!-- Add links/buttons for resolving comments and requesting re-approval as needed -->
+</p>

@@ -2,24 +2,33 @@
 using Home_Service.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Host.Mef;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Home_Service.Controllers
 {
     public class ServiceController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ServiceLayer service;
-        public ServiceController(ServiceLayer _service)
+        public ServiceController(ServiceLayer _service , UserManager<IdentityUser> userManager)
         {
             service = _service;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
-            var services = service.GetAllServices();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var services = service.GetAllServiceForUser(userId);
             return View(services);
         }
         public IActionResult Details(int id)
         {
             var services = service.GetServiceById(id);
+            if (service == null)
+            {
+                return NotFound();
+            }
             return View(services);
         }
         public IActionResult ResolveComments(int id) 
@@ -43,8 +52,13 @@ namespace Home_Service.Controllers
         [HttpPost]
         public IActionResult Create(Services servicing)
         {
-            service.CreateService(servicing);
-            return RedirectToAction("Index","Service");
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                service.CreateService(servicing, userId);
+            }
+            
+            return RedirectToAction("Index", "Service");
         }
     }
 }

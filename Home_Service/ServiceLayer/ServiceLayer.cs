@@ -15,9 +15,14 @@ public class ServiceLayer
         {
             return _context.services.Include(s=>s.Category).ToList();
         }
-    public Services GetServiceById(int id)
+    public List<Services> GetAllServiceForUser(string UserId)
     {
-        return _context.services.FirstOrDefault(s => s.Id == id);
+        return _context.services.Include(s=>s.Category).Where(s=>s.UserId == UserId).ToList();
+    }
+    public Services GetServiceById(int id)
+    {   
+        return _context.services.Include(s=>s.Category).ToList()
+            .FirstOrDefault(s => s.Id == id);
     }
     public void ResolveComments(int id, string adminComments)
     {
@@ -29,8 +34,9 @@ public class ServiceLayer
             _context.SaveChanges();
         }
     }
-    public void CreateService(Services service)
+    public void CreateService(Services service,string UserId)
     {
+        service.UserId=UserId;
         _context.services.Add(service);
         _context.SaveChanges();
     }
