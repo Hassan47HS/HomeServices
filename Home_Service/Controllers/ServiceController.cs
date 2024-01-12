@@ -10,8 +10,8 @@ namespace Home_Service.Controllers
     public class ServiceController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ServiceLayer service;
-        public ServiceController(ServiceLayer _service , UserManager<IdentityUser> userManager)
+        private readonly ServicesLayer service;
+        public ServiceController(ServicesLayer _service , UserManager<IdentityUser> userManager)
         {
             service = _service;
             _userManager = userManager;

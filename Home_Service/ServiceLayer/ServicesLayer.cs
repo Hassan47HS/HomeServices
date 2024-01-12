@@ -4,10 +4,10 @@ using System.Linq;
 using Home_Service.Models;
 using Microsoft.EntityFrameworkCore;
 
-public class ServiceLayer
+public class ServicesLayer
 {
    private readonly HomeServiceDB _context;
-        public ServiceLayer(HomeServiceDB context)
+        public ServicesLayer(HomeServiceDB context)
         {
            _context = context;
         }
