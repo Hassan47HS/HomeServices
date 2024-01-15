@@ -50,13 +50,17 @@ namespace Home_Service.ServiceLayer
             }
         }
 
-        public void RejectService(int id, string rejectionReason)
+        public void RejectService(int id, string adminComment)
         {
-            var service = _context.services.Find(id);
+
+            var service = _context.services
+            .Include(s => s.User)  // Include the User navigation property
+            .FirstOrDefault(s => s.Id == id);  // Use FirstOrDefault to retrieve a single service by ID
+
             if (service != null)
             {
                 service.Status = Status.Reject;
-                service.RejectionReason = rejectionReason;
+                service.AdminComment = adminComment ?? string.Empty;
                 _context.SaveChanges();
             }
         }
@@ -64,13 +68,13 @@ namespace Home_Service.ServiceLayer
         // Example methods for managing approved services
         public List<Services> GetApprovedServices()
         {
-            return _context.services.Where(s => s.Status == Status.Approve).ToList();
+            return _context.services.Include(s=>s.User).Where(s => s.Status == Status.Approve).ToList();
         }
 
         // Example methods for managing rejected services
         public List<Services> GetRejectedServices()
         {
-            return _context.services.Where(s => s.Status == Status.Reject).ToList();
+            return _context.services.Include(s=>s.User).Where(s => s.Status == Status.Reject).ToList();
         }
 
         public Services GetRejectedService(int id)

@@ -1,0 +1,36 @@
+﻿@model Home_Service.ViewModel.AdminViewModel
+
+@{
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
+}
+
+<h2>Rejected Services</h2>
+
+@if (Model.RejectedServices.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Name</th>
+                <th>Rejection Reason</th>   
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model.RejectedServices)
+            {
+                <tr>
+                    <td>@service.Title</td>
+                    <td style="word-wrap:break-word; max-width:200px">@service.Description</td>
+                    <td>@service.User?.Name</td>
+                    <td>@service.AdminComment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No rejected services available.</p>
+}

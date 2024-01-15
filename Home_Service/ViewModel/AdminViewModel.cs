@@ -11,6 +11,5 @@ namespace Home_Service.ViewModel
         public List<Services> RejectedServices { get; set; }
         public Services RejectedServiceDetails { get; set; }
 
-
     }
 }

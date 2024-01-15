@@ -77,26 +77,21 @@ public class AdminController : Controller
         var service = _adminService.GetRejectedService(id);
         if (service != null)
         {
-            return View(service);
+            var viewModel = new AdminViewModel
+            {
+                RejectedServiceDetails = service
+            };
+            return View(viewModel);
         }
+
         return RedirectToAction("NewServices");
     }
 
     [HttpPost]
-    public IActionResult RejectService(int id, string rejectionReason)
+    public IActionResult RejectService(int id, string adminComment)
     {
-        _adminService.RejectService(id, rejectionReason);
+        _adminService.RejectService(id, adminComment);
         return RedirectToAction("NewServices");
-    }
-
-    public IActionResult ApprovedServices()
-    {
-        var viewModel = new AdminViewModel
-        {
-            ApprovedServices = _adminService.GetApprovedServices()
-        };
-
-        return View(viewModel);
     }
 
     public IActionResult RejectedServices()
@@ -104,6 +99,15 @@ public class AdminController : Controller
         var viewModel = new AdminViewModel
         {
             RejectedServices = _adminService.GetRejectedServices()
+        };
+
+        return View(viewModel);
+    }
+    public IActionResult ApprovedServices()
+    {
+        var viewModel = new AdminViewModel
+        {
+            ApprovedServices = _adminService.GetApprovedServices()
         };
 
         return View(viewModel);
