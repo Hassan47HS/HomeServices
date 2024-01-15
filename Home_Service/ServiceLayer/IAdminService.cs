@@ -8,7 +8,7 @@ public interface IAdminService
     List<Services> GetNewServices();
     void ApproveService(int id);
     void RejectService(int id, string rejectionReason);
-
+    void DeleteCategory(int categoryId);
     List<Services> GetApprovedServices();
     List<Services> GetRejectedServices();
     Services GetRejectedService(int id);

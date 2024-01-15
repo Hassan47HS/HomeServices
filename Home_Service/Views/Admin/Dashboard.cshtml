@@ -1,0 +1,47 @@
+﻿
+
+@model Home_Service.ViewModel.AdminViewModel
+@{
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
+}
+<h2>Admin Dashboard</h2>
+
+<!-- Display categories, new services, approved services, rejected services -->
+
+<div>
+    <h3>Categories</h3>
+    <!-- Display categories here -->
+    @foreach (var category in Model.Categories)
+    {
+        <p>@category.Name</p>
+    }
+</div>
+
+<div>
+    <h3>New Services</h3>
+    <!-- Display new services here -->
+    @foreach (var service in Model.NewServices)
+    {
+        <p>@service.Title</p>
+    }
+</div>
+
+<div>
+    <h3>Approved Services</h3>
+    <!-- Display approved services here -->
+    @foreach (var service in Model.ApprovedServices)
+    {
+        <p>@service.Title</p>
+    }
+</div>
+
+<div>
+    <h3>Rejected Services</h3>
+    <!-- Display rejected services here -->
+    @foreach (var service in Model.RejectedServices)
+    {
+        <p>@service.Title</p>
+    }
+</div>
+
+

@@ -1,0 +1,36 @@
+﻿@model Home_Service.ViewModel.AdminViewModel
+@{
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
+}
+<h2>Services</h2>
+
+<!-- Display newly added services and provide options for approval/rejection -->
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th> Service Name </th>
+                <th> Description </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model.NewServices)
+            {
+                var lines = @service.Description.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                var line = string.Join(Environment.NewLine, lines.Take(2));
+                <tr>
+                    <td>@service.User?.Name</td>
+                    <td>@service.Title</td>
+                    <td style="word-wrap : break-word; max-width:200px">@line</td>
+                    <td>
+                        <a asp-action="ApproveService" asp-route-id="@service.Id" class="btn btn-primary btn-sm">Approve</a>
+                        <a asp-action="RejectService" asp-route-id="@service.Id" class="btn btn-danger btn-sm">Reject</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

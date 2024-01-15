@@ -1,0 +1,20 @@
+﻿@model Home_Service.ViewModel.AdminViewModel
+
+@{
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
+}
+<h2>Rejected Service Details</h2>
+
+<!-- Display details of a rejected service and provide option for re-approval -->
+
+<div>
+    <h3>Rejected Service</h3>
+    <!-- Display rejected service details here -->
+    <p>Title: @Model.RejectedServiceDetails.Title</p>
+    <p>Rejection Reason: @Model.RejectedServiceDetails.RejectionReason</p>
+
+    <form asp-action="ApproveRejectedService" method="post">
+        <input type="hidden" asp-for="RejectedServiceDetails.Id" />
+        <input type="submit" value="Approve" />
+    </form>
+</div>

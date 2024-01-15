@@ -1,6 +1,8 @@
 ﻿using Home_Service.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 namespace Home_Service.ServiceLayer
 {
     public class AdminService : IAdminService
@@ -11,7 +13,15 @@ namespace Home_Service.ServiceLayer
         {
             _context = context;
         }
-
+        public void DeleteCategory(int categoryId)
+        {
+            var category = _context.categories.Find(categoryId);
+            if (category != null)
+            {
+                _context.categories.Remove(category);
+                _context.SaveChanges();
+            }
+        }
         public List<Category> GetCategories()
         {
             return _context.categories.ToList();
@@ -23,12 +33,11 @@ namespace Home_Service.ServiceLayer
                 _context.SaveChanges();
         }
 
-        // Other methods for managing services...
-
-        // Example methods for managing new services
         public List<Services> GetNewServices()
         {
-            return _context.services.Where(s => s.Status == Status.Pending).ToList();
+            return _context.services
+                .Include(s=>s.User)
+                .Where(s => s.Status == Status.Pending).ToList();
         }
 
         public void ApproveService(int id)

@@ -1,0 +1,31 @@
+﻿@model List<Category>
+
+@{
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
+}
+
+<h1>Manage Categories</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Description</td>
+                <td>
+                    <a asp-action="DeleteCategory" class="btn btn-danger btn-sm" asp-route-id="@category.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="AddCategory" class="btn btn-primary">Add Category</a>

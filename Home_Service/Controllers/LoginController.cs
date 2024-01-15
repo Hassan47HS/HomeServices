@@ -107,7 +107,14 @@ public class LoginController : Controller
                 await _signInManager.UserManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
 
                 // Redirect to the appropriate action
-                return RedirectToAction("Index", "Service");
+                if(roles.Contains("Admin"))
+                {
+                    return RedirectToAction("ManageCategories", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Service");
+                }
             }
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt");

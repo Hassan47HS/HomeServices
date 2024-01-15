@@ -1,17 +1,24 @@
 using Home_Service;
+using Home_Service.Migrations;
 using Home_Service.Models;
+using Home_Service.ServiceLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ServicesLayer>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<HomeServiceDB>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("dbcs")));
 builder.Services.AddDefaultIdentity<IdentityUser>(option=>option.SignIn.RequireConfirmedAccount=true).AddRoles<IdentityRole>().AddEntityFrameworkStores<HomeServiceDB>();
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
