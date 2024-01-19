@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Home_Service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd87b0a35927b1d6e0d0555fa895423266623b1a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdf123a6a4ac49c6076dd7576b38339f0ed1a325")]
 [assembly: System.Reflection.AssemblyProductAttribute("Home_Service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Home_Service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
