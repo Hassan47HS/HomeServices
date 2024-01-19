@@ -28,11 +28,14 @@ public class AdminController : Controller
 
         return View(viewModel);
     }
-
     public IActionResult ManageCategories()
     {
-        List<Category> categories = _adminService.GetCategories();
-        return View(categories);
+        var viewModel = new AdminViewModel
+        {
+            Categories = _adminService.GetCategories(),
+        };
+
+        return View(viewModel);
     }
 
     public IActionResult AddCategory()
@@ -123,21 +126,17 @@ public class AdminController : Controller
 
         return View(viewModel);
     }
-
-    
     public IActionResult ApproveRejectedService(int id)
     {
         _adminService.ApproveRejectedService(id);
         var approvedService = _adminService.GetReapprovedServices(id);
 
-        // If approvedService is found, redirect to ApprovedServices
         if (approvedService != null)
         {
             return RedirectToAction("ApprovedServices");
         }
         else
         {
-            // If approvedService is not found, redirect to ManageCategories
             return RedirectToAction("ManageCategories");
         }
     }
@@ -145,7 +144,8 @@ public class AdminController : Controller
     {
         var viewModel = new AdminViewModel
         {
-            ReapprovalRequests = _adminService.GetReapprovalRequests()
+            ReapprovalRequests = _adminService.GetReapprovalRequests(),
+            ReapprovalRequestsCount = _adminService.GetReapprovalRequestsCount()
         };
         return View(viewModel);
     }

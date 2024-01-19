@@ -14,6 +14,7 @@ public interface IAdminService
     Services GetRejectedService(int id);
     void ApproveRejectedService(int id);
     List<Services> GetReapprovalRequests();
-    Services GetReapprovedServices (int id);
+    Services GetReapprovedServices (int id); 
+    int GetReapprovalRequestsCount();
 
 }

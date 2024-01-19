@@ -40,7 +40,7 @@
 {
     <h3>Customer Reviews</h3>
 
-    if (Model.Reviews != null && Model.Reviews.Any())
+    @if (Model.Reviews != null && Model.Reviews.Any())
     {
         <ul>
             @foreach (var review in Model.Reviews)

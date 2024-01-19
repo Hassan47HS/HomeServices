@@ -1,5 +1,4 @@
-﻿@model List<Category>
-
+﻿@model Home_Service.ViewModel.AdminViewModel
 @{
     Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
 }
@@ -15,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var category in Model)
+        @foreach (var category in Model.Categories)
         {
             <tr>
                 <td>@category.Name</td>

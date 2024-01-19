@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@model Home_Service.ViewModel.AdminViewModel
 @inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +35,10 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="RejectedServices">Rejected Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="ReapprovalRequests">ReApproval</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="ReapprovalRequests">ReApproval
+                                <span class="badge badge-pill badge-danger">@Model.ReapprovalRequestsCount</span> 
+                            </a>
+                           
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {

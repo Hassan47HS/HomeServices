@@ -22,7 +22,7 @@ public class ServicesLayer
     }
     public Services GetServiceById(int id)
     {   
-        return _context.services.Include(s=>s.Category).ToList()
+        return _context.services.Include(s=>s.Category).Include(s=>s.Reviews).ToList()
             .FirstOrDefault(s => s.Id == id);
     }
     public void ResolveComments(int id, string adminComments)
