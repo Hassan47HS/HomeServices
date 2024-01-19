@@ -10,6 +10,7 @@ namespace Home_Service.ViewModel
         public List<Services> ApprovedServices { get; set; }
         public List<Services> RejectedServices { get; set; }
         public Services RejectedServiceDetails { get; set; }
+        public List<Services> ReapprovalRequests {  get; set; }    
 
     }
 }

@@ -7,8 +7,8 @@ namespace Home_Service.Models
         public int Id { get; set; }
         public int rating { get; set; }
         public string Comment { get; set; } = "";
-        [ForeignKey("ServiceId")]
+        [ForeignKey("Services")]
         public int ServiceId { get; set; }
-        public Services services { get; set; }
+        public Services Services { get; set; }
     }
 }

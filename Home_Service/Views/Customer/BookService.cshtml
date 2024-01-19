@@ -1,0 +1,37 @@
+﻿@model Home_Service.ViewModel.CustomerViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = User.IsInRole("Customer") ? "_CustomerLayout" : "_Layout";
+}
+
+<h2>Service Details</h2>
+
+<dl class="row">
+
+    <dt class="col-sm-2">Title:</dt>
+    <dd class="col-sm-10">@Model.services[0].Title</dd>
+
+    <dt class="col-sm-2">Description:</dt>
+    <dd class="col-sm-10">@Model.services.FirstOrDefault().Description</dd>
+
+    <dt class="col-sm-2">Location:</dt>
+    <dd class="col-sm-10">@Model.services[0].Location</dd>
+
+    <dt class="col-sm-2">Average Rating:</dt>
+    <dd class="col-sm-10">@Model.services[0].AverageRating</dd>
+
+    <dt class="col-sm-2">Category:</dt>
+    <dd class="col-sm-10">@Model.services[0].Category.Name </dd>
+</dl>
+<div>
+    <p>Do you want to buy that service?</p>
+    If yes, then click on it to buy it!
+    
+    @using (Html.BeginForm("CreateCheckoutSession", "Stripe", FormMethod.Post))
+    {
+        @Html.Hidden("serviceId", Model.services[0].Id)
+        <br />
+        <button type="submit" class="btn btn-primary btn-sm">Buy service</button>
+    }
+
+</div>

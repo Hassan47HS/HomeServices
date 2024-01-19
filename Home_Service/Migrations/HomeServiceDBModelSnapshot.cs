@@ -22,6 +22,36 @@ namespace Home_Service.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Home_Service.Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("BookingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("serviceStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("bookings");
+                });
+
             modelBuilder.Entity("Home_Service.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -55,9 +85,6 @@ namespace Home_Service.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SerivceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
@@ -66,7 +93,7 @@ namespace Home_Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SerivceId");
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Reviews");
                 });
@@ -89,6 +116,9 @@ namespace Home_Service.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,16 +126,16 @@ namespace Home_Service.Migrations
                     b.Property<bool>("IsReApprovalRequested")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Justification")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<string>("RejectionReason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -156,21 +186,21 @@ namespace Home_Service.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "28ee1bdc-682a-41b8-9f53-95d4babf2523",
+                            Id = "98e6ad23-85a1-46bd-be12-137ff2cddf96",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "d390ca82-0e17-48ce-817c-9c65a9f56d29",
+                            Id = "f476b9bb-c0d6-4e15-9509-5bd47eb4264d",
                             ConcurrencyStamp = "2",
                             Name = "Seller",
                             NormalizedName = "Seller"
                         },
                         new
                         {
-                            Id = "7dca485e-f90f-4a8b-b989-e2c95caec5f3",
+                            Id = "fd1483b9-9a50-4001-906a-1ae6cd0e9a28",
                             ConcurrencyStamp = "3",
                             Name = "Customer",
                             NormalizedName = "Customer"
@@ -381,21 +411,40 @@ namespace Home_Service.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
-            modelBuilder.Entity("Home_Service.Models.Reviews", b =>
+            modelBuilder.Entity("Home_Service.Models.Booking", b =>
                 {
-                    b.HasOne("Home_Service.Models.Services", "services")
-                        .WithMany("Reviews")
-                        .HasForeignKey("SerivceId")
+                    b.HasOne("Home_Service.Models.Services", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("services");
+                    b.HasOne("Home_Service.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Home_Service.Models.Reviews", b =>
+                {
+                    b.HasOne("Home_Service.Models.Services", "Services")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("Home_Service.Models.Services", b =>
                 {
                     b.HasOne("Home_Service.Models.Category", "Category")
-                        .WithMany("services")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -460,11 +509,6 @@ namespace Home_Service.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Home_Service.Models.Category", b =>
-                {
-                    b.Navigation("services");
                 });
 
             modelBuilder.Entity("Home_Service.Models.Services", b =>

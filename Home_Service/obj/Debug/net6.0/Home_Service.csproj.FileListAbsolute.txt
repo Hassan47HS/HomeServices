@@ -544,3 +544,4 @@ C:\Users\Dev\source\repos\Home_Service\Home_Service\bin\Debug\net6.0\runtimes\wi
 C:\Users\Dev\source\repos\Home_Service\Home_Service\bin\Debug\net6.0\libman.json
 C:\Users\Dev\source\repos\Home_Service\Home_Service\obj\Debug\net6.0\Home_Service.sourcelink.json
 C:\Users\Dev\source\repos\Home_Service\Home_Service\bin\Debug\net6.0\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Dev\source\repos\Home_Service\Home_Service\bin\Debug\net6.0\Stripe.net.dll

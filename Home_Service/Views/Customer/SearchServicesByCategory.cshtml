@@ -1,0 +1,39 @@
+﻿@model Home_Service.ViewModel.CustomerViewModel
+
+
+@{
+    ViewData["Title"] = "View Services";
+}
+
+<div class="container mt-4">
+    <h2>Services by Category</h2>
+
+    @if (Model != null && Model.services.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model.services)
+                {
+                    <tr>
+                        <td>@service.Title</td>
+                        <td>@service.Description</td>
+                        <td>@service.Price</td>
+                        <!-- Add more cells for additional columns -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No services found for the selected category.</p>
+    }
+</div>

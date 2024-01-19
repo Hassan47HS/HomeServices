@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Home_Service.Models;
-using Home_Service.ServiceLayer;
 using Home_Service.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
+using Home_Service.Servicelayer;
 
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
@@ -22,7 +22,8 @@ public class AdminController : Controller
             Categories = _adminService.GetCategories(),
             NewServices = _adminService.GetNewServices(),
             ApprovedServices = _adminService.GetApprovedServices(),
-            RejectedServices = _adminService.GetRejectedServices()
+            RejectedServices = _adminService.GetRejectedServices(),
+            ReapprovalRequests = _adminService.GetReapprovalRequests()
         };
 
         return View(viewModel);
@@ -123,10 +124,29 @@ public class AdminController : Controller
         return View(viewModel);
     }
 
-    [HttpPost]
+    
     public IActionResult ApproveRejectedService(int id)
     {
         _adminService.ApproveRejectedService(id);
-        return RedirectToAction("RejectedServices");
+        var approvedService = _adminService.GetReapprovedServices(id);
+
+        // If approvedService is found, redirect to ApprovedServices
+        if (approvedService != null)
+        {
+            return RedirectToAction("ApprovedServices");
+        }
+        else
+        {
+            // If approvedService is not found, redirect to ManageCategories
+            return RedirectToAction("ManageCategories");
+        }
+    }
+    public IActionResult ReapprovalRequests()
+    {
+        var viewModel = new AdminViewModel
+        {
+            ReapprovalRequests = _adminService.GetReapprovalRequests()
+        };
+        return View(viewModel);
     }
 }

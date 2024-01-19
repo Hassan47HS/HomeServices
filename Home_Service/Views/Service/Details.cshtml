@@ -36,25 +36,32 @@
     <dd class="col-sm-10">@Model.AdminComment</dd>
 </dl>
 
-<h3>Customer Reviews</h3>
+@if(Model.Status == Status.Approve)
+{
+    <h3>Customer Reviews</h3>
 
-@if (Model.Reviews != null && Model.Reviews.Any())
-{
-    <ul>
-        @foreach (var review in Model.Reviews)
-        {
-            <li>
-                <strong>Rating:</strong> @review.rating,
-                <strong>Comment:</strong> @review.Comment
-            </li>
-        }
-    </ul>
+    if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        <ul>
+            @foreach (var review in Model.Reviews)
+            {
+                <li>
+                    <strong>Rating:</strong> @review.rating,
+                    <strong>Comment:</strong> @review.Comment
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No reviews available.</p>
+    }
 }
-else
-{
-    <p>No reviews available.</p>
-}
+
 
 <p>
-    <!-- Add links/buttons for resolving comments and requesting re-approval as needed -->
+    @if(Model.Status==Status.Reject)
+    {
+        <a asp-controller="Service" asp-action="ReapproveService" asp-route-id="@Model.Id" class="btn btn-info">Request Re-approval</a>
+    }
 </p>

@@ -1,0 +1,32 @@
+﻿@model Home_Service.ViewModel.CustomerViewModel
+
+@{
+    Layout = User.IsInRole("Customer") ? "_CustomerLayout" : "_Layout";
+}
+
+<h2>Completed Services</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th> 
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model.bookings)
+        {
+            <tr>
+                <td>@booking.Service.Title</td>
+                <td style="word-wrap:break-word;max-width:200px">@booking.Service.Description</td>
+                <td>@booking.Service.Category.Name</td>
+                <td>
+                    <a asp-action="ViewServiceDetail" asp-route-id="@booking.Service.Id" class="btn btn-info btn-sm">Details</a>
+                    <!-- Add other actions if needed -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

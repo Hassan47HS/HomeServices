@@ -20,12 +20,12 @@ namespace Home_Service.Models
         public int CategoryId { get; set; }//Fk
         //[ForeignKey("CategoryId")]
         public Category Category { get; set; }//navigation Property
-        [ForeignKey("SerivceId")]
         public ICollection<Reviews> Reviews { get; set; }//Navigation Property
-        public string RejectionReason { get; set; } = "";
+        public string Justification { get; set; } = "";
         public bool IsReApprovalRequested { get; set; }
         public Status Status { get; set; }
         public string AdminComment { get; set; } = "";
 
+        public DateTime Date { get; set; }
     }
 }   

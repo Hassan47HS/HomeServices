@@ -22,6 +22,7 @@ namespace Home_Service
         public DbSet <Services> services { get; set; }
         public DbSet <Category> categories { get; set; }
         public DbSet <Reviews> Reviews {  get; set; }   
+        public DbSet<Booking> bookings { get; set; }
         private void seedRoles(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData

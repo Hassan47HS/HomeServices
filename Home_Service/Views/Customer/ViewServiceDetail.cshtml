@@ -1,0 +1,47 @@
+﻿@model Home_Service.ViewModel.CustomerViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = User.IsInRole("Customer") ? "_CustomerLayout" : "_Layout";
+}
+
+<h2>Service Details</h2>
+
+<dl class="row">
+
+    <dt class="col-sm-2">Title:</dt>
+    <dd class="col-sm-10">@Model.services[0].Title</dd>
+
+    <dt class="col-sm-2">Description:</dt>
+    <dd class="col-sm-10">@Model.services.FirstOrDefault().Description</dd>
+
+    <dt class="col-sm-2">Location:</dt>
+    <dd class="col-sm-10">@Model.services[0].Location</dd>
+
+    <dt class="col-sm-2">Average Rating:</dt>
+    <dd class="col-sm-10">@Model.services[0].AverageRating</dd>
+
+    <dt class="col-sm-2">Category:</dt>
+    <dd class="col-sm-10">@Model.services[0].Category.Name </dd>
+</dl>
+
+@if (Model.services[0].Status == Status.Approve)
+{
+    <h3>Customer Reviews</h3>
+
+    if (@Model.services[0].Reviews != null && Model.services[0].Reviews.Any())
+    {
+        <ul>
+            @foreach (var review in Model.services[0].Reviews)
+            {
+                <li>
+                    <strong>Rating:</strong> @review.rating,
+                    <strong>Comment:</strong> @review.Comment
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No reviews available.</p>
+    }
+}

@@ -1,6 +1,7 @@
 using Home_Service;
 using Home_Service.Migrations;
 using Home_Service.Models;
+using Home_Service.Servicelayer;
 using Home_Service.ServiceLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ServicesLayer>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IStripeService, StripeService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -19,6 +22,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));
 });
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Home_Service.Models;
 using Microsoft.EntityFrameworkCore;
+using Home_Service.ViewModel;
 
 public class ServicesLayer
 {
@@ -44,4 +45,25 @@ public class ServicesLayer
     {
         return _context.categories.ToList();
     }
+    public void ReapproveService(EditViewModel viewModel)
+    {
+        var service = _context.services.FirstOrDefault(s => s.Id == viewModel.Id);
+
+        if (service != null && service.Status == Status.Reject)
+        {
+            service.Title = viewModel.Title;
+            service.Description = viewModel.Description;
+            service.Price = viewModel.Price;
+            var selectedCategory = _context.categories.FirstOrDefault(c => c.Id == viewModel.SelectedCategoryId);
+            service.Category = selectedCategory;
+            service.AverageRating = viewModel.AverageRating;
+            service.Location = viewModel.Location;
+            service.Justification = viewModel.ReapprovalRequestMessage;
+            service.Status = Status.ReapprovalRequest;
+            service.IsReApprovalRequested = true;
+            service.AdminComment = viewModel.AdminComment;
+            _context.SaveChanges();
+        }
+    }
+
 }

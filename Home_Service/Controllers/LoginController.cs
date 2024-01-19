@@ -111,6 +111,10 @@ public class LoginController : Controller
                 {
                     return RedirectToAction("ManageCategories", "Admin");
                 }
+                else if(roles.Contains("Customer"))
+                {
+                    return RedirectToAction("ViewServices", "Customer");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Service");

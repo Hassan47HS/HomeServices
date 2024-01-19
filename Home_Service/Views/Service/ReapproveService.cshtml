@@ -1,0 +1,58 @@
+﻿@model Home_Service.ViewModel.EditViewModel
+
+@{
+    ViewData["Title"] = "Edit Service";
+}
+
+<h2>Edit Service</h2>
+
+<form asp-controller="Service" asp-action="ReapproveService" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Title:</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Description:</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Location" class="control-label">Location:</label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Price:</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AverageRating" class="control-label">AverageRating:</label>
+        <input asp-for="AverageRating" class="form-control" />
+        <span asp-validation-for="AverageRating" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SelectedCategoryId" class="control-label">Category</label>
+        <select asp-for="SelectedCategoryId" asp-items="@Model.AvailableCategories" class="form-control">
+            @* <option value="">-- Choose a Category --</option> *@
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="AdminComment" class="control-label">AdminComment:</label>
+        <input asp-for="AdminComment" class="form-control" />
+        <span asp-validation-for="AdminComment" class="text-danger"></span>
+    </div>
+    <!-- Add other form fields as needed -->
+    <div class="form-group">
+        <label asp-for="ReapprovalRequestMessage" class="control-label">Reapproval Request Message:</label>
+        <textarea asp-for="ReapprovalRequestMessage" class="form-control"></textarea>
+        <span asp-validation-for="ReapprovalRequestMessage" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Request for Re-Approval</button>
+    </div>
+</form>

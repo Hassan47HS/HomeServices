@@ -1,9 +1,10 @@
-﻿using Home_Service.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Home_Service;
+using Home_Service.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Home_Service.ServiceLayer
+namespace Home_Service.Servicelayer
 {
     public class AdminService : IAdminService
     {
@@ -22,6 +23,7 @@ namespace Home_Service.ServiceLayer
                 _context.SaveChanges();
             }
         }
+
         public List<Category> GetCategories()
         {
             return _context.categories.ToList();
@@ -29,15 +31,16 @@ namespace Home_Service.ServiceLayer
 
         public void AddCategory(Category category)
         {
-                _context.categories.Add(category);
-                _context.SaveChanges();
+            _context.categories.Add(category);
+            _context.SaveChanges();
         }
 
         public List<Services> GetNewServices()
         {
             return _context.services
-                .Include(s=>s.User)
-                .Where(s => s.Status == Status.Pending).ToList();
+                .Include(s => s.User)
+                .Where(s => s.Status == Status.Pending)
+                .ToList();
         }
 
         public void ApproveService(int id)
@@ -52,10 +55,9 @@ namespace Home_Service.ServiceLayer
 
         public void RejectService(int id, string adminComment)
         {
-
             var service = _context.services
-            .Include(s => s.User)  // Include the User navigation property
-            .FirstOrDefault(s => s.Id == id);  // Use FirstOrDefault to retrieve a single service by ID
+                .Include(s => s.User)
+                .FirstOrDefault(s => s.Id == id);
 
             if (service != null)
             {
@@ -65,16 +67,20 @@ namespace Home_Service.ServiceLayer
             }
         }
 
-        // Example methods for managing approved services
         public List<Services> GetApprovedServices()
         {
-            return _context.services.Include(s=>s.User).Where(s => s.Status == Status.Approve).ToList();
+            return _context.services
+                .Include(s => s.User)
+                .Where(s => s.Status == Status.Approve)
+                .ToList();
         }
 
-        // Example methods for managing rejected services
         public List<Services> GetRejectedServices()
         {
-            return _context.services.Include(s=>s.User).Where(s => s.Status == Status.Reject).ToList();
+            return _context.services
+                .Include(s => s.User)
+                .Where(s => s.Status == Status.Reject)
+                .ToList();
         }
 
         public Services GetRejectedService(int id)
@@ -91,6 +97,131 @@ namespace Home_Service.ServiceLayer
                 _context.SaveChanges();
             }
         }
-    }
 
+        public List<Services> GetReapprovalRequests()
+        {
+            return _context.services
+                .Include(s => s.User)
+                .Where(s => s.Status == Status.ReapprovalRequest)
+                .ToList();
+        }
+        public Services GetReapprovedServices(int id)
+        {
+            // Find the reapproved service based on the provided ID
+            var reapprovedService = _context.services
+                .Include(s => s.User)
+                .FirstOrDefault(s => s.Id == id && s.Status == Status.Approve);
+
+            return reapprovedService;
+        }
+    }
 }
+//public class AdminService : IAdminService
+//{
+//    private readonly HomeServiceDB _context;
+
+//    public AdminService(HomeServiceDB context)
+//    {
+//        _context = context;
+//    }
+
+//    public void DeleteCategory(int categoryId)
+//    {
+//        var category = _context.categories.Find(categoryId);
+//        if (category != null)
+//        {
+//            _context.categories.Remove(category);
+//            _context.SaveChanges();
+//        }
+//    }
+
+//    public List<Category> GetCategories()
+//    {
+//        return _context.categories.ToList();
+//    }
+
+//    public void AddCategory(Category category)
+//    {
+//        _context.categories.Add(category);
+//        _context.SaveChanges();
+//    }
+
+//    public List<Services> GetNewServices()
+//    {
+//        return _context.services
+//            .Include(s => s.User)
+//            .Where(s => s.Status == Status.Pending)
+//            .ToList();
+//    }
+
+//    public void ApproveService(int id)
+//    {
+//        var service = _context.services.Find(id);
+//        if (service != null)
+//        {
+//            service.Status = Status.Approve;
+//            _context.SaveChanges();
+//        }
+//    }
+
+//    public void RejectService(int id, string adminComment)
+//    {
+//        var service = _context.services
+//            .Include(s => s.User)
+//            .FirstOrDefault(s => s.Id == id);
+
+//        if (service != null)
+//        {
+//            service.Status = Status.Reject;
+//            service.AdminComment = adminComment ?? string.Empty;
+//            _context.SaveChanges();
+//        }
+//    }
+
+//    public List<Services> GetApprovedServices()
+//    {
+//        return _context.services
+//            .Include(s => s.User)
+//            .Where(s => s.Status == Status.Approve)
+//            .ToList();
+//    }
+
+//    public List<Services> GetRejectedServices()
+//    {
+//        return _context.services
+//            .Include(s => s.User)
+//            .Where(s => s.Status == Status.Reject)
+//            .ToList();
+//    }
+
+//    public Services GetRejectedService(int id)
+//    {
+//        return _context.services.Find(id);
+//    }
+
+//    public void ApproveRejectedService(int id)
+//    {
+//        var rejectedService = _context.services.Find(id);
+//        if (rejectedService != null)
+//        {
+//            rejectedService.Status = Status.Approve;
+//            _context.SaveChanges();
+//        }
+//    }
+
+//    public List<Services> GetReapprovalRequests()
+//    {
+//        return _context.services
+//            .Include(s => s.User)
+//            .Where(s => s.Status == Status.ReapprovalRequest)
+//            .ToList();
+//    }
+
+//    public Services GetReapprovedServices(int id)
+//    {
+//        // Implement logic to retrieve reapproved services based on the provided ID
+//        // This could involve querying your database or performing other necessary operations
+//        // For now, I'll return null to complete the method, but you need to implement the actual logic.
+//        return null;
+//    }
+//}

@@ -1,0 +1,36 @@
+﻿@model Home_Service.ViewModel.AdminViewModel
+
+@{
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_Layout";
+}
+
+<h2>Reapproval Requests</h2>
+
+@if (Model.ReapprovalRequests.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Rejection Reason</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model.ReapprovalRequests)
+            {
+                <tr>
+                    <td>@service.Title</td>
+                    <td style="word-wrap: break-word; max-width: 200px">@service.Justification</td>
+                    <td>
+                        <a asp-action="ApproveRejectedService" asp-route-id="@service.Id" class="btn btn-primary btn-sm">Approve</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No reapproval requests found.</p>
+}
