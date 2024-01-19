@@ -49,7 +49,7 @@ namespace Home_Service.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("bookings");
+                    b.ToTable("bookings", (string)null);
                 });
 
             modelBuilder.Entity("Home_Service.Models.Category", b =>
@@ -70,7 +70,7 @@ namespace Home_Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
                 });
 
             modelBuilder.Entity("Home_Service.Models.Reviews", b =>
@@ -95,7 +95,7 @@ namespace Home_Service.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Home_Service.Models.Services", b =>
@@ -154,7 +154,7 @@ namespace Home_Service.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("services");
+                    b.ToTable("services", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
